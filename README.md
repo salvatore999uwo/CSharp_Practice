@@ -1,2 +1,2 @@
 # CSharp_Practice
-practicing C# skills in preparation for a new project using Emgu CV
+practicing C# skills and starting some small machine vision projects using visual studio 

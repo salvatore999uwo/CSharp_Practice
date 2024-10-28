@@ -1,0 +1,2300 @@
+class motorcycle
+{
+  public int driverIntensity;
+
+  //new members to represent the name of the driver 
+  public string name;
+  public void SetDriverName(string name) => name = name;
+  ...
+}
+
+//make a motorcycle with a rider named Tiny 
+Motorcycle c = new Motorcycle(5);
+c.SetDriverName("Tiny");
+c.PopAWheely();
+Console.WriteLine("Rider name is {0}", c.name); //prints an empty name value! 
+
+
+public void SetDriverName(string name) => this.name = name;
+
+
+
+
+Class Motorcycle
+{
+  public int driverIntensity;
+  public string driverName;
+
+  public void SetDriverName(string name)
+  {
+    //these two statements are functionally the same
+    driverName = name;
+    this.driverName = name;
+  }
+  ..
+}
+
+
+//let's chain some constructor calls using the "this" keyword
+class Motorcycle
+{
+ public int driverIntensity;
+ public string driverName;
+
+ public Motorcycle() {}
+
+ //redundant constructor logic!
+ public Motorcycle(int intensity)
+ {
+  if(intensity > 10)
+  {
+   intensity = 10;
+  }
+  driverIntensity = intensity;
+ }
+
+ public Motorcycle(int intensity, string name)
+ {
+  if(intensity > 10)
+  {
+   intensity = 10;
+  }
+  driverIntensity = intensity;
+  driverName = name;
+ }
+...
+}
+
+
+
+
+//ok fine but we need to update every constructor if we want to change the 
+//code that checks the intensity and caps it at 10
+//this one uses a method at the top to make it more modular and easy to edit
+
+//(code i'm too busy to write down)
+
+
+
+//now finally let's use a master constructor 
+
+class Motorcycle
+{
+ public int driverIntensity;
+ public string driverName;
+
+ //constructor chaining
+ public Motorcycle() {}
+ public Motorcycle(int Intensity)
+  : this(intensity, "") {}
+ public Motorcycle(string name)
+  : this(0, name) {}
+
+ //this is the "master" constructor that does all the real work.
+ public Motorcycle(int intensity, string name)
+ {
+  if(intensity > 10)
+  {
+   intensity = 10;
+  }
+ }
+ driverIntensity = intensity;
+ driverName = name;
+ }
+ ...
+}
+
+
+//let's continue but we'll add some console outputs 
+
+class Motorcycle
+{
+ public int driverIntensity;
+ public string driverName;
+
+ //constructor chaining
+ public Motorcycle()
+ {
+  Console.WriteLine("in default constructor");
+ }
+
+ public Motorcycle(int intensity)
+   : this(intensity, "")
+ {
+  Console.WriteLine("in constructor taking an int");
+ }
+
+ public Motorcycle(string name)
+   : this(0, name)
+ {
+  Console.WriteLine("in constructor taking a string");
+ }
+
+ //this is the master constructor that does all the real work
+ Public MotorCycle(int intensity, string name)
+ {
+  Console.WriteLine("in master constructor");
+  if(intensity > 10)
+  {
+   intensity = 10;
+  }
+  driverIntensity = intensity;
+  driverName = name;
+ }
+...
+}
+
+
+
+//now make sure your top-level statements excercise a Motorcycle object
+Console.WriteLine("fun with class types");
+
+//make a motorcycle
+Motorcycle c = new Motorcycle(5);
+c.SetDriverName("Tiny");
+c.PopAWheely();
+Console.WriteLine("rider name is {0}", c.driverName);
+Console.ReadLine();
+
+
+//ok time for optional arguments 
+class Motorcycle
+{
+ //single constructor using optional args
+ public Motorcycle(int intensity = 0, string name = "")
+ {
+  if(intensity > 10)
+  {
+   intensity = 10;
+  }
+ driverIntensity = intensity;
+ driverName = name;
+ }
+...
+}
+
+//cool 
+
+
+static void MakeSomeBikes()
+{
+ //driverName = "", driverIntensity = 0
+ Motorcycle m1 = new Motorcycle();
+ Console.WriteLine("Name= {0}, Intensity= {1}", 
+  m1.driverName, m1.driverIntensity);
+
+ //driverName = "Tiny", driverIntensity = 0
+ Motorcycle m2 = new Motorcycle(name: "Tiny");
+ Console.WriteLine("Name= {0}, Intensity= {1}",
+  m2.driverName, m2.driverIntensity);
+
+ //driverName = "", driverIntensity = 7
+ Motorcycle m3 = new Motorcycle(7);
+ Console.WriteLine("Name= {0}, Intensity= {1}",
+  m3.driverName, m3.driverIntensity);
+}
+
+
+//ok let's talk static members
+//these members can only be invoked from classes, not objects of that class
+
+//static fun
+
+using System;
+namespace StaticDataAndMembers
+{
+ //a simple savings account class
+ class SavingsAccount
+ {
+  //instance level data
+  public double currBalance;
+  public SavingsAccount(double balance)
+  {
+   currBalance = balance;
+  }
+ }
+}
+//that's instance level, non-static data
+
+//now static:
+
+class SavingsAccount
+{
+ //a static point of data
+ public static double currInterestRate = 0.04;
+
+ //instance level data
+ public double currBalance;
+
+ public SavingsAccount(double balance)
+ {
+  currBalance = balance;
+ }
+}
+
+
+//cool 
+
+//let's define a static method now 
+
+//a simple savings account class
+
+class SavingsAccount
+{
+ //instance-level data 
+ public double currBalance;
+
+ //a static point of data
+ public static double currInterestRate = 0.04;
+
+ public SavingsAccount(double balance)
+ {
+  currBalance = balance;
+ }
+
+ //static members to get/set interest rate
+ public static void SetInterestRate(double newRate)
+  => currInterestRate = newRate;
+
+ public static double GetInterestRate()
+  => currInterestRate;
+ }
+
+
+
+using System;
+using StaticDataAndMembers;
+
+Console.WriteLine("fun with static data \n");
+
+SavingsAccount s1 = new SavingsAccount(50);
+SavingsAccount s2 = new SavingsAccount(100);
+
+//print the current interest rate
+Console.WriteLine("interest rate is: {0}", SavingsAccount.GetInterestRate());
+
+//make new object, this does NOT reset the interest rate
+SavingsAccount s3 = new SavingsAccount(10000.75);
+Console.WriteLine("interest rate is: {0}", SavingsAccount.GetInterestRate());
+
+Console.ReadLine();
+//prints the same interest rate twice, of course 
+
+//static constructor stuff
+class SavingsAccount
+{
+ public double currBalance;
+ public static double currInterestRate;
+
+ //notice the constructor is setting the static interest rate value 
+ public SavingsAccount(double balance)
+ {
+  currInterestRate = 0.04; //this is static data! 
+  currBalance = balance; 
+ }
+
+...
+}
+
+//top level:
+
+//make an account
+SavingsAccount s1 = new SavingsAccount(50);
+
+//print current interest rate
+Console.WriteLine("interest rate is: {0}", s1.GetInterestRate());
+
+//try to change the interest rate via property
+SavingsAccount.SetInterestRate(0.08);
+
+//make second account
+SavingsAccount s2 = new SavingsAccount(100);
+
+
+//should print 0.08 right? WRONGGGGGG
+Console.WriteLine("interest rate is: {0}", SavingsAccount.GetInterestRate());
+Console.ReadLine();
+
+//well we don't want the interest rate to reset every time i make a 
+//savingsaccount object, but we need somewhere to run the code that
+//grabs the rate from the banking database.
+//static constructor! 
+
+class SavingsAccount
+{
+ public double currBalance;
+ public static double currInterestRate;
+
+ public SavingsAccount(double balance)
+ {
+  currBalance = balance;
+ }
+
+ //a static constructor! 
+ static SavingsAccount()
+ {
+  Console.WriteLine("in the static constructor!");
+  currInterestRate = 0.04;
+ }
+...
+}
+
+
+//oh! and static classes are another static usage, they are also called
+//utility classes. you can't make any instances of them, but you can 
+//add methods to them and use them to do stuff (utility, right? haha) 
+
+
+
+
+//encapsulation! using regular old get, set
+
+using System;
+
+namespace EmployeeApp
+{
+ class Employee
+ {
+  //field data
+  private string _empName;
+  private int _empId;
+  private float _currPay;
+
+  //constructors
+  public Employee() {}
+  public Employee(string name, int id, float pay)
+  {
+   _empName = name; 
+   _empId = id;
+   _currPay = pay; 
+  }
+
+  //methods
+  public void GiveBonus(float amount) => _currPay += amount;
+  public void DisplayStats()
+  {
+   Console.WriteLine("name: {0}", _empName);
+   Console.WriteLine("ID: {0}", _empId);
+   Console.WriteLine("Pay: {0}", _currPay);
+   }
+  }
+ }
+
+
+//let's finally add some get set methods 
+
+class Employee
+{
+ //field data
+ private string _empName;
+ ...
+
+ //accessor (get method)
+ public string GetName() => _empName;
+
+ //mutator (set method) 
+ public void SetName(string name)
+ { 
+  //do a check on incoming value first 
+  if(name.Length > 15)
+  {
+   Console.WriteLine("error! name length too long");
+  }
+  else
+  {
+   _empName = name;
+  }
+ }
+}
+
+
+//put into use
+
+Console.WriteLine("fun with encapsulation");
+Employee emp = new Employee("Marvin, 456, 30_000);
+emp.GiveBonus(1000);
+emp.DisplayStats();
+
+//use the get set methods to interact with object's name
+emp.SetName("marv");
+Console.WriteLine("employee is named: {0}", emp.GetName());
+Console.ReadLine();
+
+
+
+
+//ok good. that worked
+//let's go ahead and use some properties instead, a bit cleaner 
+
+class Employee
+{
+ //field data
+ private string _empName;
+ private int _empId;
+ private float _currPay;
+
+ //properties! 
+ public string Name
+ {
+  get { return _empName; }
+  set
+  {
+   if(value.Length > 15)
+   {
+    Console.WriteLine("error! name too long");
+   }
+   else
+   {
+    _empName = value;
+   }
+  }
+ }
+
+ public int Id
+ {
+  get { return _empId; }
+  set { _empId = value; }
+ }
+
+ public float Pay
+ {
+  get { return _currPay; }
+  set { _currPay = value; }
+  }
+...
+}
+
+
+
+//you can make the get and set methods really simple like this: 
+
+public int Age
+{
+ get => empAge;
+ set => empAge = value;
+}
+
+
+
+
+
+//let's use properties again to check incoming data
+
+public Employee(string name, int age, int id, float pay)
+{
+ //use properties when setting class data
+ //this reduces duplicate error checking code
+
+ Name = name;
+ Age = age;
+ ID = id;
+ Pay = pay;
+}
+//that's my constructor, of course 
+
+//from the top now! 
+
+class Employee
+{ 
+ //field data
+ private string _empName;
+ private int _empId;
+ private float _currPay;
+ private int _empAge;
+
+ //constructors 
+ public Employee() { }
+ public Employee(string name, int id, float pay)
+   :this(name, 0, id, pay){}
+ public Employee(string name, int age, int id, float pay)
+ {
+  Name = name;
+  Age = age;
+  ID = id;
+  Pay = pay; 
+ }
+
+ //methods
+ public void GiveBonus(float amount) => Pay += amount;
+
+ public void DisplayStats()
+ {
+  Console.WriteLine("name: {0}", Name);
+  Console.WriteLine("ID: {0}", Id);
+  Console.WriteLine("Age: {0}", Age);
+  Console.WriteLine("Pay: {0}", Pay);
+ }
+
+ //properties as before...
+}
+
+
+
+
+//initializing object syntax
+
+using System;
+
+namespace ObjectInitializers
+{
+ class Rectangle
+ {
+  private Point topLeft = new Point();
+  private Point bottomRight = new Point();
+
+  public Point TopLeft
+  {
+   get { return topLeft; }
+   set { topLeft = value; }
+  }
+
+  public point BottomRight
+  {
+   get { return bottomRight; }
+   set { bottomRight = value; }
+  }
+
+  public void DisplayStats()
+  {
+   Console.WriteLine("[TopLeft: {0}, {1}, {2} BottomRight: {3},{4},{5}]",
+     topLeft.X, topLeft.Y, topLeft.Color,
+     bottomRight.X, bottomRight.Y, bottomRight.color);
+   }
+  }
+ }
+
+
+//initialize the object
+
+Rectangle myRect = new Rectangle
+{
+ TopLeft = new Point { X = 10, Y = 10 },
+ BottomRight = new Point { X = 200, Y = 200}
+};
+
+
+
+
+
+
+//constant field data for stuff that can't be changed 
+
+
+//MyMathClass.cs
+using System;
+namespace ConstData
+{
+ class MyMathClass
+ {
+  public const double PI = 3.14;
+ }
+}
+
+//in program.cs
+using System;
+using ConstData;
+
+Console.WriteLine("fun with const");
+Console.WriteLine("the value of PI is: {0}", MyMathClass.PI);
+
+//const fields are implicitly static (class level, not object level)
+//that's why i'm referencing the MyMathClass class instead of an 
+//object of that class
+
+//you can also have const at the object level, though:
+static void LocalConstStringVariable()
+{
+ //a local constant data point can be directly accessed
+ const string fixedStr = "fixed string data";
+ Console.WriteLine(fixedStr);
+
+ //can't change this string of course
+}
+
+//methods are invoked at runtime, constants are declared 
+//and set at compile time 
+
+//similar to a const, a readonly field of a class cannot be changed 
+//after being declared (only set by the constructor).
+//a const field can only be set by the class code before runtime,
+//but a readonly field can be set after runtime has started by 
+//invoking the constructor for that class 
+
+
+//inheritance!
+
+//simple example 
+namespace BasicInheritance
+{
+ //a simple base class
+ class Car
+ {
+  public readonly int MaxSpeed;
+  private int _currSpeed;
+
+  public Car(int max)
+  {
+   MaxSpeed = max;
+  }
+
+  public Car()
+  {
+   MaxSpeed = 55;
+  }
+
+  public int Speed
+  {
+   get { return _currSpeed; }
+   set
+   {
+    _currSpeed = value;
+    if(_currSpeed > MaxSpeed)
+    {
+     _currSpeed = MaxSpeed;
+    }
+   }
+  }
+ }
+}
+
+//now i'm in the main method, using my new Car class
+
+using System;
+using BasicInheritance;
+
+Console.WriteLine("fun with inheritance");
+//make car object, set max speed and current speed
+Car myCar = new Car(80) {Speed = 50};
+
+//print current speed
+Console.WriteLine("my car is going {0} MPH", myCar.Speed);
+Console.ReadLine();
+
+
+
+
+
+//add a new minivan class that is a child of the car class
+namespace BasicInheritance
+{
+ //minivan "is-a" car
+ sealed class MiniVan : Car
+ {
+ }
+}
+
+//in the main method, we create a minivan object 
+Console.WriteLine("inheritance stuff");
+
+MiniVan myVan = new MiniVan {Speed = 10};
+Console.WriteLine("my van is going {0} MPH", myVan.Speed);
+Console.ReadLine();
+
+//inheritance program, extends an employee class to various types of 
+//employee, such as salesman or manager
+
+//managers need to know their number of stock options
+class Manager : Employee
+{
+ public int StockOptions { get; set; }
+}
+
+//salespeople need to know their number of sales
+class SalesPerson : Employee
+{
+ public int SalesNumber { get; set; }
+}
+
+
+//back to main method 
+//create a subclass object and access base class functionality
+Console.WriteLine("the employee class hierarchy");
+SalesPerson fred = new SalesPerson
+{
+ Age = 31, Name = "Fred", SalesNumber = 50
+};
+
+
+//assume we added a seven-argument constructor to the Manager type 
+//invoke it in the main method
+//constructor signature: (string fullName, int Age, int empID, 
+//float currPay, string ssn, int numbOfOpts)
+
+Manager chucky = new Manager("Chucky", 50, 92, 100000, "333-23-2322", 9000);
+
+//here's a custom constructor that would work:
+
+public Manager(string fullName, int age, int empId, float currPay,
+	       string ssn, int numbOfOpts)
+{
+ //this property is defined by the Manager class
+ StockOptions = numbOfOpts;
+ //assign incoming parameters using the inherited properties of the parent 
+ Id = empId;
+ Age = age;
+ Name = fullName;
+ Pay = currPay;
+ PayType = EmployeePayTypeEnum.Salaried;
+ //OOPS! This would be a compiler error, if the SSN was read-only 
+ SocialSecurityNumber = ssn;
+} 
+
+
+
+//let's make a new constructor that takes six arguments
+//add to the employee base class
+public Employee(string name, int age, int id, float pay, string empSsn, 
+		EmployeePayTypeEnum, payType)
+{
+ Name = name;
+ Id = id;
+ Age = age;
+ Pay = pay;
+ SocialSecurityNumber = empSsn;
+ PayType = payType;
+}
+
+//now we go back to the Manager type to use this new constructor
+public Manager(string fullName, int age, int empId, float currPay, 
+	       string ssn, int numbOfOpts)
+	       : base(fullname, age, empId, currPay, ssn, EmployeePayTypeEnum.Salaried)
+{
+ //this property is defined by the manager class
+ StockOptions = numbOfOpts;
+}
+
+
+//now we do the same for the salesperson constructor
+//as a general rule, all subclasses should explicitly call an appropriate
+//base class constructor
+
+public SalesPerson(string fullName, int age, int empId, float currPay,
+		   string ssn, int numbOfSales)
+		   : base(fullName, age, empId, currPay, ssn, 
+		          EmployeePayTypeEnum.Commission)
+{
+ //this belongs with us!
+ SalesNumber = numbOfSales;
+}
+
+
+//once you add a custom constructor to a class definition, the default constructor
+//is silently removed. just remember to add a default constructor for when 
+//you want to create an object of that class without passing parameters 
+//to the constructor:
+public SalesPerson() {}
+
+//now no more direct/traditional inheritance, i want to see containment
+//this is a "has-a" relationship where one class contains another 
+
+namespace Employees
+{
+ //this new type will function as a contained class
+ class BenefitPackage
+ {
+  //assume we have other members that represent dental/health benefits etc
+  public double ComputePayDeduction()
+  {
+   return 125.0;
+  }
+ }
+}
+
+//employees now have benefits
+partial class Employee
+{
+ //contain a BenefitPackage object
+  protected BenefitPackage EmpBenefits = new BenefitPackage();
+
+ //expose certain benefit behaviors of object
+ public BenefitPackage Benefits
+ {
+  get { return EmpBenefits; }
+  set { EmpBenefits = value; }
+ }
+}
+
+//ok back to main method
+Console.WriteLine("the employee class hierarchy");
+...
+Manager chucky = new Manager("chucky", 50, 92, 100000, "333-23-2322", 9000);
+double cost = chucky.GetBenefitCost();
+Console.WriteLine($"Benefit cost: {cost}");
+Console.ReadLine();
+
+
+
+
+//assume we have nested the BenefitPackage directly within the Employee class type 
+partial class Employee
+{
+ public class BenefitPackage
+ {
+  //assume we have other members to represent other benefits 
+  public double ComputePayDeduction()
+  {
+   return 125.0;
+  }
+ }
+...
+}
+
+
+//employee nests BenefitPackage
+public partial class Employee
+{
+ //BenefitPackage nests BenefitPackageLevel
+ public class BenefitPackage
+ {
+  public enum BenefitPackageLevel
+  {
+   Standard,Gold,Platinum
+  }
+
+  public double ComputePayDeduction()
+  {
+   return 125.0;
+  }
+ }
+...
+}
+
+
+...
+//define my benefit level
+Employee.BenefitPackage.BenefitPackageLevel myBenefitLevel =
+	Employee.BenefitPackage.BenefitPackageLevel.Platinum;
+
+
+//cool!
+
+
+//polymorphism!
+//gonna look at the virtual and override keywords now 
+
+partial class Employee
+{
+ //this method can now be "overridden" by a derived class
+ public virtual void GiveBonus(float amount)
+ {
+  Pay += amount;
+ }
+...
+}
+
+//this isn't exactly like C++, in this case you actually need the virtual keyword
+//if you want to override it later. and you need the override keyword when you 
+//eventually do so.
+
+//example
+using System;
+class SalesPerson : Employee
+{
+ ...
+ //a salesperson's bonus is affected by number of sales
+ public override void GiveBonus(float amount)
+ {
+  int salesBonus = 0;
+  if(SalesNumber >= 0 && SalesNumber <= 100)
+   salesBonus = 10;
+  else
+  {
+   if(SalesNumber >= 101 && SalesNumber <= 200)
+    salesBonus = 15;
+   else
+    salesBonus = 20; 
+ }
+  base.GiveBonus(amount * salesBonus);
+  }
+ }
+
+ class Manager : Employee
+ {
+ ...
+  public override void GiveBonus(float amount)
+  {
+   base.GiveBonus(amount);
+   Random r = new Random();
+   StockOptions += r.Next(500);
+  }
+ }
+
+
+
+
+
+
+//Manager.cs
+public override void DisplayStats()
+{
+ base.DisplayStats();
+ Console.WriteLine("Number of Stock Options: {0}", StockOptions);
+}
+
+//SalesPerson.cs
+public override void DisplayStats()
+{
+ base.DisplayStats();
+ Console.WriteLine("number of sales: {0}", SalesNumber);
+}
+
+//back to main method, let's put it to use
+
+//a better bonus system!
+Console.WriteLine("employee class hierarchy");
+
+Manager chucky = new Manager("chucky", 50, 92, 100000, "333-23-2322", 9000);
+chucky.GiveBonus(300);
+chucky.DisplayStats();
+Console.WriteLine();
+
+SalesPerson fran = new SalesPerson("fran", 43, 93, 3000, "932-32-3232", 31);
+fran.giveBonus(200);
+fran.DisplayStats();
+Console.ReadLine();
+
+//this will use the new overridden giveBonus methods, which are different for each
+//subclass. the manager gets a fairly random new number of stock options, while the 
+//salesman gets a higher pay based on the number of sales.
+//in this case, salesman gets the bonus amount * 10 because he had between 
+//0 and 100 sales.
+
+
+
+
+//let's say you don't want a certain method to be overridden by child classes any further
+
+//SalesPerson class has sealed the GiveBonus() method!
+class SalesPerson : Employee
+{
+ ...
+ public override sealed void GiveBonus(float amount)
+ {
+  ...
+ }
+}
+
+//ok fine, you can seal methods too. ugh 
+
+
+//abstract classes! 
+//these are just classes that you don't want to create objects of, you only want to 
+//use their methods and data (members and fields) in child classes that inherit
+//from the main class. 
+
+//eg
+abstract partial class Employee
+{
+ ...
+}
+
+//you can even chain constructors to an abstract class from the child classes 
+
+
+
+
+//ok shape example 
+//the granddaddy class, shape, is too abstract so we'll make it an abstract class
+//in other words we don't want any instances of the shape class, but its 
+//data and methods should be inherited by its descendants, such as hexagon 
+//and circle.
+
+//the abstract base class of the hierarchy
+abstract class Shape
+{
+ protected Shape(string name = "NoName")
+ { PetName = name; }
+
+ public string PetName { get; set; }
+
+ //a single virtual method
+ public virtual void Draw()
+ {
+  Console.WriteLine("Inside Shape.Draw()");
+ }
+}
+
+//let's implement the circle and hexagon types
+//circle does NOT override Draw();
+class Circle: Shape
+{
+ public Circle() {}
+ public Circle (string name) : base(name){}
+}
+
+//hexagon DOES override Draw();
+class Hexagon : Shape
+{
+ public Hexagon() {}
+ public Hexagon(string name) : base(name){}
+ public override void Draw()
+ {
+  Console.WriteLine("drawing {0} the hexagon...", PetName);
+ }
+}
+
+
+//assume we just marked the original draw method as abstract, so now we NEED to 
+//implement it in all the child classes that inherit its signature from gramps 
+
+class Circle : Shape
+{
+ public Circle() {}
+ public Circle(string name) : base(name) {}
+ public override void Draw()
+ {
+  Console.WriteLine("drawing {0} the circle", PetName);
+ }
+}
+
+//cool example!
+
+Console.WriteLine("fun with polymorphism");
+
+//make an array of shape-compatible objects
+Shape[] myShapes = {new Hexagon(), new Circle(), new Hexagon("Mick"),
+ new Circle("beth"), new Hexagon("linda")};
+//just made 5 shape objects, as members of the array myShapes 
+//some were passed names to the constructor, some were not and got the 
+//default value (which is a null string for the petname)
+
+//loop over each item and interact with the polymorphic interface
+foreach (Shape s in myShapes)
+{
+ s.Draw();
+}
+Console.ReadLine();
+
+//and the output calls the draw method for each of the 5 shapes, implemented 
+//differently depending on shape type 
+
+
+//you can cast classes???
+
+static void CastingExamples()
+{
+ //a manager "is-a" System.Object, so we can store a Manager reference in an 
+ //object variable just fine 
+ object frank = new Manager("frank zappa", 9, 3000, 40000, "111-11-1111", 5);
+}
+
+static void CastingExamples()
+{
+ //a manager is an Employee too 
+ Employee moonUnit = new Manager("MoonUnit zappa", 2, 3001, 20000, "101-11-1321", 1);
+
+ //a part time salesperson is a salesperson 
+ SalesPerson jill = new PtSalesPerson("jill", 834, 3002, 100000, "111-12-1119", 90);
+}
+
+//if you have an "is-a" relationship, casting is safe 
+
+//for example:
+static void GivePromotion(Employee emp)
+{
+ //increase pay, give new parking space...
+
+ Console.WriteLine("{0} was promoted!", emp.Name);
+}
+//you can pass any descendant of the employee class into this method
+//eg. manager, salesperson, etc.
+
+//so that's all "up casting", which is when lower classes (descendants) work 
+//fine for a method made for higher classes 
+//eg you can pass Manager to a method that takes Employees
+
+//but you can also "down cast", which is for the opposite case 
+//eg the method wants a Manager, but you want to pass a generic
+//Employee type to it 
+
+//syntax: (Classiwanttocastto)referenceIHave
+
+//so you can do this: 
+GivePromotion((Manager)frank);
+//frank is an object type, explicitly down casting to employee type 
+
+
+//remember shapes?
+class Hexagon
+{
+ public void Draw()
+ {
+  Console.WriteLine("drawing a hexagon");
+ }
+}
+
+//explicit casting is evaluated at runtime, not compile time 
+//so you can do this: 
+object frank = new Manager();
+Hexagon hex = (Hexagon)frank;
+
+//this is not good! not compatible types but no error until runtime
+
+//oooo we get to use try and catch here:
+//catch a possible invalid cast
+object frank = new Manager();
+Hexagon hex;
+
+try
+{
+ hex = (Hexagon)frank;
+}
+catch(InvalidCastException ex)
+{
+ Console.WriteLine(ex.Message);
+}
+
+//use "as" to test compatibility
+object[] things = new object[4];
+things[0] = new Hexagon();
+things[1] = false;
+things[2] = new Manager();
+things[3] = "last thing";
+
+foreach(object item in things)
+{
+ Hexagon h = item as Hexagon;
+ if(h == null)
+ {
+  Console.WriteLine("item is not a hexagon");
+ }
+ else
+ {
+  h.Draw();
+ }
+}
+
+//as keyword will test each object for compatibility with the Hexagon class
+
+//the "as" and "is" keywords are used to check if two items are of compatible
+//type. 
+
+
+
+//ok let's try the "is" keyword out
+
+static void GivePromotion(Employee emp)
+{
+ Console.WriteLine("{0} was promoted!", emp.Name);
+ if(emp is SalesPerson)
+ {
+  Console.WriteLine("{0} made {1} sales!",emp.Name, ((SalesPerson)emp).SalesNumber);
+  Console.WriteLine();
+ }
+else if(emp is Manager)
+ {
+  Console.WriteLine("{0} had {1} stock options...", emp.Name, ((Manager)emp).StockOptions);
+  Console.WriteLine();
+ }
+}
+
+//so the "is" keyword is just handy for checking what kind of object
+//you're looking at.
+
+
+//a little more new stuff
+static void GivePromotion(Employee emp)
+{
+ Console.WriteLine("{0} was promoted!", emp.Name);
+ //check if is SalesPerson, assign to variable s
+ if(emp is SalesPerson s)
+ {
+  Console.WriteLine("{0} made {1} sales!",s.Name,s.SalesNumber);
+  Console.WriteLine();
+ }
+
+ //check if manager, if so then assign to variable m
+ else if (emp is Manager m)
+ {
+  Console.WriteLine("{0} had {1} stock options",m.Name,m.StockOptions);
+  Console.WriteLine();
+ }
+}
+
+
+
+
+
+//a little pattern matching
+static void GivePromotion(Employee emp)
+{
+ Console.WriteLine("{0} was promoted!",emp.Name);
+ switch(emp)
+ {
+  case SalesPerson s:
+   Console.WriteLine("{0} made {1} sales!",emp.Name,s.SalesNumber);
+  break;
+  case Manager m:
+   Console.WriteLine("{0} had {1} stock options",emp.Name,m.StockOptions);
+  break;
+ }
+}
+
+
+//playing with the top-level object class
+
+//remember! Person extends Object
+class Person {}
+
+//main method
+Console.WriteLine("fun with System.Object \n");
+Person p1 = new Person();
+
+//use inherited members of System.Object
+Console.WriteLine("ToString: {0}", p1.ToString());
+Console.WriteLine("Hash code: {0}", p1.GetHashCode());
+Console.WriteLine("Type: {0}", p1.GetType());
+
+//make some other references to p1
+Person p2 = p1;
+object o = p2;
+//are the references pointing to the same object in memory?
+if(o.Equals(p1) && p2.Equals(o))
+{
+ Console.WriteLine("same instance!");
+}
+Console.ReadLine();
+)
+
+
+//let's do an example where we override some of the System.Object methods 
+
+class Person
+{
+ public string FirstName {get; set; } = "";
+ public string LastName {get; set; } = "";
+ public int Age { get; set; }
+
+ public Person(string fName, string lName, int personAge)
+ {
+  FirstName = fName;
+  LastName = lName;
+  Age = personAge;
+ }
+ public Person(){}
+}
+
+//let's override System.Object.ToString()
+
+public override string ToString() => $"[First Name: {FirstName}; Last Name: {LastName};
+					Age: {Age}]";
+
+
+//override System.Object.Equals()
+public override bool Equals(object obj)
+{
+ if(!(obj is Person temp))
+ {
+  return false;
+ }
+ if(temp.FirstName == this.FirstName
+    && temp.LastName == this.LastName
+    && temp.Age == this.Age)
+ {
+  return true;
+ }
+ return false;
+}
+
+//compares every field of two objects of the "Person" class to see if they are "equal" 
+//to each other 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
